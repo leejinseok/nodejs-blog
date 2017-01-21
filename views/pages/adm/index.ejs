@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<title>뚝심코딩 - 관리자</title>
+</head>
+<body>
+<form id='frmAdmLogin' data-target='/login/adm' method="post">
+    <input type="text" name="user_id" value="">
+    <input type="password" name="user_pwd" value="">
+    <input type="submit" name="" value="submit">
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#frmAdmLogin").on('submit', function(){
+        var dataTarget = $(this).attr('data-target');
+        // var data = JSON.stringify($(this).serializeArray());
+        //var data = JSON.stringify($(this).serializeArray());
+        var user_id = $(this).find('[name=user_id]').val();
+        var user_pwd = $(this).find('[name=user_pwd]').val();
+        var data = {
+            user_id:user_id,
+            user_pwd:user_pwd
+        }
+        $.ajax({
+            url:dataTarget,
+            type:"POST",
+            data : {user_id:user_id, user_pwd:user_pwd},
+            error : function(data){
+                console.log(data);
+            },
+            success : function(data){
+                if(data.res == true){
+                    alert('login!!');
+                    window.location.href='/adm/home'
+                }
+            }
+        })
+        return false;
+    });
+})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+<link href="/public/summernote/summernote.css" rel="stylesheet">
+<style media="screen">
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+.container-fluid{
+    text-align: center !important;
+}
+.navbar-brand{
+    margin: auto;
+    display: block;
+    float:initial;
+}
+a{
+    font-family: Nanum Gothic;
+    color:rgb(66, 66, 66);
+}
+a:hover{
+    color:rgb(66, 66, 66);
+}
+</style>
+</head>
+<body>
+<div class="container-fluid">
+    <a href="#" class="navbar-brand">뚝심코딩 관리자</a>
+</div>
+
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="title">title</label>
+            <input type="email" class="form-control" id="title" placeholder="title">
+        </div>
+        <div class="form-group">
+            <label for="title">content</label>
+            <textarea id="summernote"></textarea>
+        </div>
+    </form>
+</div>
+
+<script src="/public/summernote/summernote.js"></script>
+<script type="text/javascript">
+$('.dropdown-toggle').dropdown();
+$(document).ready(function() {
+    // $('#summernote').summernote();
+
+    $('#summernote').summernote({
+        height: 590,
+        focus: true,
+        callbacks: {
+            onImageUpload : function(file, editor, welEditable) {
+                console.log('editor',editor);
+                saveFile(file[0], editor, welEditable);
+            }
+        }
+    });
+
+    function saveFile(file, editor, welEditable){
+        data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "/upload/image",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(url) {
+                var $summernote = $("#summernote");
+                var imgPath = url.name+"."+url.ext;
+                var img = $("<img src='/uploaded/"+imgPath+"' style='width:100%;'>")[0];
+                $summernote.summernote('insertNode', img);
+                // editor.insertImage(welEditable, url);
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
