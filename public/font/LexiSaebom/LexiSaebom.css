@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "LexiSaebom";
+  src: url("./LexiSaebomR.eot");
+  /*IE 9 호환성 보기 모드 대응*/
+  src: local("☺"), url("./LexiSaebomR.eot?#iefix") format("embedded-opentype"), url("./LexiSaebomR.woff") format("woff");
+  /*표준 브라우저*/
+}
